@@ -33,48 +33,48 @@ public class iOSApp {
             capabilities.setCapability("platformVersion",version);
             capabilities.setCapability("platformName", platform);
             capabilities.setCapability("isRealMobile", true);
-            capabilities.setCapability("app", "lt://"); //Enter your app url
+
+            //Enter the Custom_ID here that was used to upload your application
+            capabilities.setCapability("app", "ENTER_CUSTOM_ID_HERE");
+
             capabilities.setCapability("deviceOrientation", "PORTRAIT");
             capabilities.setCapability("console", true);
             capabilities.setCapability("network", false);
             capabilities.setCapability("visual", true);
             capabilities.setCapability("devicelog", true);
-            //capabilities.setCapability("geoLocation", "HK");
 
             String hub = "https://" + userName + ":" + accessKey + gridURL;
             driver = new AppiumDriver(new URL(hub), capabilities);
 
             WebDriverWait Wait = new WebDriverWait(driver,30);
 
+            //Changes the color of the text
             Wait.until(ExpectedConditions.presenceOfElementLocated(MobileBy.AccessibilityId("color"))).click();
             Thread.sleep(1000);
 
+            //Changes the text to "Proverbial"
             Wait.until(ExpectedConditions.presenceOfElementLocated(MobileBy.AccessibilityId("Text"))).click();
             Thread.sleep(1000);
 
+            //Toast will be visible
             Wait.until(ExpectedConditions.presenceOfElementLocated(MobileBy.AccessibilityId("toast"))).click();
             Thread.sleep(1000);
 
+            //Notification will be visible
             Wait.until(ExpectedConditions.presenceOfElementLocated(MobileBy.AccessibilityId("notification"))).click();
             Thread.sleep(4000);
-
-            Wait.until(ExpectedConditions.presenceOfElementLocated(MobileBy.AccessibilityId("geoLocation"))).click();
-            Thread.sleep(4000);
-
-            driver.navigate().back();
-
-            //MARKING TEST AS PASSED VIA LAMBDA HOOKS            
-            driver.executeScript('lambda-status=passed');
 
             driver.quit();
 
         } catch (Exception e) {
             e.printStackTrace();
-            
-            //MARKING TEST AS FAILED VIA LAMBDA HOOKS            
-            driver.executeScript('lambda-status=failed');
-            driver.quit();
+            try{
+                driver.quit();
+            }catch(Exception e1){
+                e.printStackTrace();
             }
         }
 
+
     }
+}

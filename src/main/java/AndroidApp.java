@@ -32,7 +32,10 @@ public class AndroidApp {
             capabilities.setCapability("platformVersion",version);
             capabilities.setCapability("platformName", platform);
             capabilities.setCapability("isRealMobile", true);
-            capabilities.setCapability("app", "lt://"); //Enter your app url
+
+            //Enter the Custom_ID here that was used to upload your application
+            capabilities.setCapability("app", "ENTER_CUSTOM_ID_HERE");
+
             capabilities.setCapability("deviceOrientation", "PORTRAIT");
             capabilities.setCapability("console", true);
             capabilities.setCapability("network", false);
@@ -43,52 +46,40 @@ public class AndroidApp {
             driver = new AppiumDriver(new URL(hub), capabilities);
 
             MobileElement color = (MobileElement) driver.findElementById("com.lambdatest.proverbial:id/color");
+            //Changes color to pink
             color.click();
             Thread.sleep(1000);
 
             MobileElement text = (MobileElement) driver.findElementById("com.lambdatest.proverbial:id/Text");
+            //Changes the text to "Proverbial"
             text.click();
 
+            //toast will be visible
             MobileElement toast = (MobileElement) driver.findElementById("com.lambdatest.proverbial:id/toast");
             toast.click();
 
+            //notification will be visible
             MobileElement notification = (MobileElement) driver.findElementById("com.lambdatest.proverbial:id/notification");
             notification.click();
             Thread.sleep(2000);
 
+            //Opens the geolocation page
             MobileElement geo = (MobileElement) driver.findElementById("com.lambdatest.proverbial:id/geoLocation");
             geo.click();
             Thread.sleep(5000);
 
+            //takes back to home page
             MobileElement home = (MobileElement) driver.findElementByAccessibilityId("Home");
             home.click();
-
-            MobileElement speedtest = (MobileElement) driver.findElementById("com.lambdatest.proverbial:id/speedTest");
-            speedtest.click();
-            Thread.sleep(5000);
-
-            MobileElement Home = (MobileElement) driver.findElementByAccessibilityId("Home");
-            Home.click();
-
-            MobileElement browser = (MobileElement) driver.findElementByAccessibilityId("Browser");
-            browser.click();
-
-            MobileElement url = (MobileElement) driver.findElementById("com.lambdatest.proverbial:id/url");
-            url.sendKeys("https://www.lambdatest.com");
-
-            MobileElement find = (MobileElement) driver.findElementById("com.lambdatest.proverbial:id/find");
-            find.click();
-
-            //MARKING TEST AS PASSED VIA LAMBDA HOOKS            
-            driver.executeScript('lambda-status=passed');
 
             driver.quit();
 
         } catch (Exception e) {
             e.printStackTrace();
-            //MARKING TEST AS FAILED VIA LAMBDA HOOKS            
-            driver.executeScript('lambda-status=failed');
-            driver.quit();
+            try{
+                driver.quit();
+            }catch(Exception e1){
+                e.printStackTrace();
             }
         }
 
